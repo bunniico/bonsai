@@ -1,6 +1,6 @@
 # 盆栽 Bonsai — The Artist's Tech Tree
 
-> AI-Generation Notice: This repository is almost entirely AI-generated! The code is not fully human-verified or tested (yet).
+> AI-Generation Notice: This repository is almost entirely AI-generated! The code is not fully human-verified or tested (yet). This is a PROOF OF CONCEPT.
 
 A gamified web app for learning digital art from near-zero to competent
 generalist, built on the research plan in *The Artist's Tech Tree*. The full
