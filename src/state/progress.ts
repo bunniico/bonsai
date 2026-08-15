@@ -54,6 +54,12 @@ export function isUnlocked(node: CurriculumNode, p: Progress): boolean {
   });
 }
 
+/** How many of a node's sub-nodes (if any) are complete. */
+export function subNodeProgress(node: CurriculumNode, p: Progress): { done: number; total: number } {
+  const subs = node.subNodes ?? [];
+  return { done: subs.filter((s) => p.completed[s.id]).length, total: subs.length };
+}
+
 export function earnedXp(p: Progress): number {
   return NODES.filter((n) => p.completed[n.id]).reduce((s, n) => s + n.xp, 0);
 }

@@ -1,9 +1,166 @@
-import type { BranchInfo, CurriculumNode, PrereqGroup } from '../types';
+import type { BranchInfo, CurriculumNode, PrereqGroup, SubNode } from '../types';
 
 /** Shorthand: every listed node required. */
 const all = (...ids: string[]): PrereqGroup[] => (ids.length ? [{ ids, required: ids.length }] : []);
 /** Shorthand: `n` of the listed nodes required. */
 const any = (n: number, ...ids: string[]): PrereqGroup => ({ ids, required: n });
+
+/**
+ * A1's breakdown, modeled on Drawabox Lesson 1 — scoped to lines and
+ * ellipses only, since boxes/perspective belong to A2.
+ */
+const A1_SUB_NODES: SubNode[] = [
+  // ── Lines: Using Your Arm ──────────────────────────────────────────────
+  {
+    id: 'A1-1', kind: 'lesson', group: 'Lines: Using Your Arm',
+    title: 'Understanding how to use your arm', minutes: 5,
+    summary: 'Every mark you make is powered by a pivot somewhere up your arm. Move from the shoulder for long, confident strokes instead of the small joints you use for handwriting.',
+  },
+  {
+    id: 'A1-2', kind: 'lesson', group: 'Lines: Using Your Arm',
+    title: 'Drawing from your wrist and shoulder', minutes: 5,
+    summary: 'The wrist gives tight, controlled marks over a few inches; the shoulder gives big, sweeping ones across the whole page. Most of the linework in this course favors the shoulder.',
+  },
+  {
+    id: 'A1-3', kind: 'lesson', group: 'Lines: Using Your Arm',
+    title: 'Old habits', minutes: 5,
+    summary: 'Years of handwriting train you to draw from the fingers and wrist, resting your hand on the page as an anchor. That habit produces short, hesitant, curved marks — the opposite of what confident drawing needs.',
+  },
+  {
+    id: 'A1-4', kind: 'lesson', group: 'Lines: Using Your Arm',
+    title: 'The pivots of the arm', minutes: 5,
+    summary: 'Fingers, wrist, elbow, and shoulder each rotate around a different point, producing a different arc. Knowing which joint is doing the work lets you choose the right pivot for the mark you need.',
+  },
+  {
+    id: 'A1-5', kind: 'lesson', group: 'Lines: Using Your Arm',
+    title: "Let's keep it simple", minutes: 5,
+    summary: 'For this course, boil the arm down to two modes: the shoulder for lines and sweeping strokes, the wrist for small, precise adjustments. Everything else is a mix of the two.',
+  },
+  {
+    id: 'A1-6', kind: 'lesson', group: 'Lines: Using Your Arm',
+    title: "Do you mean I can't ever draw with my wrist or elbow?", minutes: 5,
+    summary: "No — this is about building a new default through drills, not banning the other joints forever. Once shoulder-driven lines are second nature, you'll mix in wrist and elbow motion naturally where it serves the mark.",
+  },
+  {
+    id: 'A1-7', kind: 'lesson', group: 'Lines: Using Your Arm',
+    title: 'The path of least resistance', minutes: 5,
+    summary: "Rotate the paper or tablet so the stroke direction matches your arm's natural swing, rather than contorting your arm to match a fixed page orientation.",
+  },
+  {
+    id: 'A1-8', kind: 'lesson', group: 'Lines: Using Your Arm',
+    title: 'Hover-hand', minutes: 5,
+    summary: "Resting your hand on the page anchors you back into wrist-only motion. Keep it hovering just above the surface so your shoulder stays free to drive the stroke.",
+  },
+  {
+    id: 'A1-9', kind: 'lesson', group: 'Lines: Using Your Arm',
+    title: 'How to hold your pen', minutes: 5,
+    summary: 'Hold the pen further back than you would for handwriting, with a relaxed, looser grip. A tight, close-to-the-tip grip locks you back into small, finger-driven marks.',
+  },
+
+  // ── Lines: Markmaking ──────────────────────────────────────────────────
+  {
+    id: 'A1-10', kind: 'lesson', group: 'Lines: Markmaking',
+    title: 'Rules to follow', minutes: 5,
+    summary: 'Every mark you draw in this course should meet three non-negotiable qualities: confident, unbroken, and holding a consistent trajectory from start to end.',
+  },
+  {
+    id: 'A1-11', kind: 'lesson', group: 'Lines: Markmaking',
+    title: 'The Principles of Markmaking', minutes: 5,
+    summary: 'A good mark looks intentional and planned — placed by a decision made before the pen touched the page — rather than tentative or searching for the right path as it goes.',
+  },
+  {
+    id: 'A1-12', kind: 'lesson', group: 'Lines: Markmaking',
+    title: 'Marks should be continuous and unbroken', minutes: 5,
+    summary: "Don't lift the pen mid-stroke or retrace over a line to fix it. A broken or overlapped mark reads as hesitation, even if the underlying shape was right.",
+  },
+  {
+    id: 'A1-13', kind: 'lesson', group: 'Lines: Markmaking',
+    title: 'Marks must flow smoothly', minutes: 5,
+    summary: 'Draw at a constant, even speed. Marks that start slow, speed up, then slow down again to "search" for the endpoint look shaky even when the geometry is correct.',
+  },
+  {
+    id: 'A1-14', kind: 'lesson', group: 'Lines: Markmaking',
+    title: 'Marks must maintain a consistent trajectory', minutes: 5,
+    summary: "A mark should commit to one arc or line and follow it — no correcting mid-stroke. Course-correcting partway through is what produces the wobble you're trying to eliminate.",
+  },
+
+  // ── Lines: Drills ────────────────────────────────────────────────────────
+  {
+    id: 'A1-15', kind: 'exercise', group: 'Lines: Drills',
+    title: 'Superimposed Lines drill', minutes: 5,
+    summary: "Ghost the same straight line three to five times, drawing directly over your previous pass each time. Aim to get straighter and more confident on every repetition without slowing down.",
+    completeWhen: 'Fill a full page of superimposed-line sets, each set drawn from a single confident, shoulder-driven motion.',
+  },
+  {
+    id: 'A1-16', kind: 'exercise', group: 'Lines: Drills',
+    title: 'Ghosted Lines drill', minutes: 5,
+    summary: "Rehearse the motion in the air above the page (ghosting) before committing to a single, confident line between two dots. Commit only once the rehearsed arc feels right.",
+    completeWhen: 'Fill a full page of ghosted lines connecting varied dot pairs, each a single unbroken pass.',
+  },
+  {
+    id: 'A1-17', kind: 'exercise', group: 'Lines: Drills',
+    title: 'Ghosted Planes drill', minutes: 5,
+    summary: 'Construct a 4-sided plane freehand using ghosted lines for the first pass, then add two more rounds of lines tracing back over each edge to refine it.',
+    completeWhen: 'Fill a full page of ghosted planes, each with three rounds of refinement lines over the original edges.',
+  },
+
+  // ── Ellipses: Foundations ──────────────────────────────────────────────
+  {
+    id: 'A1-18', kind: 'lesson', group: 'Ellipses: Foundations',
+    title: 'What is an ellipse?', minutes: 5,
+    summary: "An ellipse is a circle seen at an angle — foreshortened by perspective, not literally squashed. Every ellipse you draw represents a circle sitting somewhere in 3D space.",
+  },
+  {
+    id: 'A1-19', kind: 'lesson', group: 'Ellipses: Foundations',
+    title: '2D vs 3D', minutes: 5,
+    summary: 'You can draw an ellipse as a flat 2D shape on the page, or use it to represent a circular plane sitting inside a 3D scene. This course only cares about the second use.',
+  },
+  {
+    id: 'A1-20', kind: 'lesson', group: 'Ellipses: Foundations',
+    title: 'Circles in 3D space', minutes: 5,
+    summary: 'Before drawing an ellipse, picture the flat circular plane it belongs to floating in space, and the angle that plane makes relative to your eye.',
+  },
+  {
+    id: 'A1-21', kind: 'lesson', group: 'Ellipses: Foundations',
+    title: 'Degree', minutes: 5,
+    summary: "An ellipse's degree describes how \"fat\" or \"thin\" it looks — a direct result of the angle between the circle's plane and your line of sight.",
+  },
+  {
+    id: 'A1-22', kind: 'lesson', group: 'Ellipses: Foundations',
+    title: 'Degree shift', minutes: 5,
+    summary: "As a circle revolves in space — around a wheel's axle, say — its degree changes continuously and smoothly, never jumping between fixed steps.",
+  },
+  {
+    id: 'A1-23', kind: 'lesson', group: 'Ellipses: Foundations',
+    title: 'Minor axis', minutes: 5,
+    summary: "The minor axis is the short axis of the ellipse, always running straight through its center toward your eye. Use it to check that a chain of ellipses stays aligned.",
+  },
+  {
+    id: 'A1-24', kind: 'lesson', group: 'Ellipses: Foundations',
+    title: 'Normal vector', minutes: 5,
+    summary: "The normal vector is an imaginary line perpendicular to the ellipse's plane — useful for visualizing which direction a circular form is \"facing\" in space.",
+  },
+
+  // ── Ellipses: Drills ─────────────────────────────────────────────────────
+  {
+    id: 'A1-25', kind: 'exercise', group: 'Ellipses: Drills',
+    title: 'Tables of Ellipses drill', minutes: 5,
+    summary: "Fill rows of same-degree ellipses, ghosting each one two to three times before committing, to build even, consistent control at a fixed degree.",
+    completeWhen: 'Fill a full page of ellipse tables across at least four different degrees, each ellipse a single confident pass.',
+  },
+  {
+    id: 'A1-26', kind: 'exercise', group: 'Ellipses: Drills',
+    title: 'Ellipses in Planes drill', minutes: 5,
+    summary: 'Draw a plane, then fit a confident ellipse that touches all four of its edges — practicing the link between a plane and the circle inscribed in it.',
+    completeWhen: 'Fill a full page of planes with inscribed ellipses that touch all four edges without wobbling.',
+  },
+  {
+    id: 'A1-27', kind: 'exercise', group: 'Ellipses: Drills',
+    title: 'Ellipses in Funnels drill', minutes: 5,
+    summary: 'Stack aligned ellipses of smoothly shifting degree along a shared central minor axis to build a funnel form — the same logic behind cylinders in A3.',
+    completeWhen: 'Fill a full page of funnels, each with five or more aligned ellipses of smoothly shifting degree.',
+  },
+];
 
 export const BRANCHES: BranchInfo[] = [
   { id: 'A', name: 'Core Fundamentals', color: '#d9a84e' },
@@ -28,6 +185,7 @@ export const NODES: CurriculumNode[] = [
       'Ctrl+Paint "Brush Control" (for the digital version)',
     ],
     pos: { x: 4, y: 0 },
+    subNodes: A1_SUB_NODES,
   },
   {
     id: 'A2', branch: 'A', icon: '📦', title: 'Basic Perspective & the Box', tier: 1, prereqs: all('A1'),

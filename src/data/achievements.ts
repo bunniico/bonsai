@@ -1,4 +1,4 @@
-import { NODES } from './curriculum';
+import { NODE_MAP, NODES } from './curriculum';
 import type { BranchId, Progress } from '../types';
 
 export interface AchievementDef {
@@ -15,7 +15,9 @@ const branchDone = (p: Progress, branch: BranchId) =>
   NODES.filter((n) => n.branch === branch && (!n.mature || p.settings.showMature))
        .every((n) => p.completed[n.id]);
 
-const completedCount = (p: Progress) => Object.keys(p.completed).length;
+/** Counts only top-level nodes — sub-node completions share the same map but shouldn't inflate this. */
+const completedCount = (p: Progress) =>
+  Object.keys(p.completed).filter((id) => NODE_MAP.has(id)).length;
 
 const xpOf = (p: Progress) =>
   NODES.filter((n) => p.completed[n.id]).reduce((s, n) => s + n.xp, 0);

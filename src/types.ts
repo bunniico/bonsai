@@ -9,6 +9,28 @@ export interface PrereqGroup {
   required: number;
 }
 
+/** Lessons build knowledge; exercises are hands-on practice. */
+export type SubNodeKind = 'lesson' | 'exercise';
+
+/**
+ * A bite-size (~5 minute) step inside a node's sub-tree. IDs must be unique
+ * across the whole curriculum since they share the `completed` map with
+ * top-level nodes.
+ */
+export interface SubNode {
+  id: string;
+  kind: SubNodeKind;
+  /** Section heading this sub-node is displayed under, e.g. "Lines: Markmaking". */
+  group: string;
+  title: string;
+  /** Approximate time to read/complete, in minutes. */
+  minutes: number;
+  /** The knowledge (lesson) or instructions (exercise) themselves. */
+  summary: string;
+  /** For exercises: what "done" looks like. */
+  completeWhen?: string;
+}
+
 export interface CurriculumNode {
   id: string;
   branch: BranchId;
@@ -25,6 +47,8 @@ export interface CurriculumNode {
   mature?: boolean;
   /** Layout position on the tree canvas, in grid units (x rightward, y = depth from the roots). */
   pos: { x: number; y: number };
+  /** Optional bite-size breakdown of this node into lessons and exercises. */
+  subNodes?: SubNode[];
 }
 
 export interface BranchInfo {
