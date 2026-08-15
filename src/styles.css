@@ -145,14 +145,29 @@ body {
   filter: drop-shadow(0 0 9px rgba(230, 240, 200, 0.6));
 }
 
+.node-icon {
+  text-anchor: middle;
+  font-size: 22px;
+  pointer-events: none;
+}
+.node-locked .node-icon { opacity: 0.6; }
+
+.node-id-badge-ring {
+  fill: var(--bg-panel);
+  stroke: #3b463b;
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+.node-completed .node-id-badge-ring { fill: #13180f; }
+
 .node-id {
   text-anchor: middle;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 9.5px;
   fill: var(--ink);
   pointer-events: none;
 }
-.node-completed .node-id { fill: #13180f; }
+.node-completed .node-id { fill: var(--ink); }
 .node-locked .node-id { fill: var(--ink-dim); }
 
 .node-title {
@@ -230,6 +245,7 @@ body {
 }
 .modal-head h2 { margin: 4px 0 0; font-size: 19px; }
 .modal-branch { font-size: 12px; font-weight: 600; letter-spacing: 0.4px; }
+.modal-node-id { font-size: 12px; font-weight: 500; color: var(--ink-dim); }
 .close {
   background: none;
   border: none;

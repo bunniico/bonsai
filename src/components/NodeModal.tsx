@@ -39,7 +39,7 @@ export function NodeModal({ nodeId, onClose, onSelect }: Props) {
             <span className="modal-branch" style={{ color: branch.color }}>
               {branch.name} · Tier {node.tier}
             </span>
-            <h2>{node.id} — {node.title}</h2>
+            <h2>{node.icon} {node.title} <span className="modal-node-id">{node.id}</span></h2>
           </div>
           <button className="close" onClick={onClose} aria-label="Close">✕</button>
         </header>

@@ -12,6 +12,8 @@ export interface PrereqGroup {
 export interface CurriculumNode {
   id: string;
   branch: BranchId;
+  /** Emoji representing the node's subject, shown as the main glyph on the tree. */
+  icon: string;
   title: string;
   tier: number;
   prereqs: PrereqGroup[];
