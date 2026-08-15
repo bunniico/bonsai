@@ -108,7 +108,11 @@ export function SkillTree({ onSelect, selectedId }: Props) {
               }}
             >
               <circle r={R} className="node-ring" stroke={color} fill={completed ? color : undefined} />
-              <text className="node-id" dy="0.35em">{node.id}</text>
+              <text className="node-icon" dy="0.35em">{node.icon}</text>
+              <g className="node-id-badge">
+                <circle className="node-id-badge-ring" cx={-(R - 7)} cy={-(R - 7)} r={11} />
+                <text className="node-id" x={-(R - 7)} y={-(R - 7)} dy="0.32em">{node.id}</text>
+              </g>
               {hasArt && <text className="node-art" x={R - 6} y={-R + 8}>🖼</text>}
               <text className="node-title" y={R + 16}>
                 {node.title.length > 20 ? `${node.title.slice(0, 18)}…` : node.title}
