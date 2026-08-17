@@ -596,6 +596,7 @@ export const NODES: CurriculumNode[] = [
   // ── BRANCH G — ADVANCED / CAPSTONE ───────────────────────────────────────
   {
     id: 'G1', branch: 'G', icon: '🧑‍🎨', title: 'Character Illustration (Finished)', tier: 6, prereqs: all('C5', 'D2', 'B4'),
+    recommended: ['H1', 'H2'],
     description: 'A fully rendered single-character illustration with background, lighting, and design intent.',
     completeWhen: 'Complete one portfolio-quality character illustration from thumbnail to finish.',
     xp: 200,
@@ -609,6 +610,7 @@ export const NODES: CurriculumNode[] = [
   {
     id: 'G2', branch: 'G', icon: '🐉', title: 'Creature / Mech Hero Illustration', tier: 6,
     prereqs: [any(1, 'E3', 'E4'), ...all('B4', 'F1')],
+    recommended: ['H1', 'H2'],
     description: 'A finished illustration featuring a non-human subject in an environment.',
     completeWhen: 'Complete one portfolio-quality creature or mech illustration in a setting.',
     xp: 200,
@@ -644,7 +646,7 @@ export const NODES: CurriculumNode[] = [
   },
   {
     id: 'G5', branch: 'G', icon: '🏆', title: 'Portfolio & Personal Style', tier: 6,
-    prereqs: [...all('G1'), any(2, 'G2', 'G3', 'G4')],
+    prereqs: [...all('G1'), any(2, 'G2', 'G3', 'G4', 'H5')],
     description: 'Assemble a cohesive body of work; identify and push your personal style; self-critique and iteration.',
     completeWhen: 'Assemble 6–10 finished pieces that show range (character + creature + environment) and a recognizable personal voice.',
     xp: 200,
@@ -657,10 +659,13 @@ export const NODES: CurriculumNode[] = [
   },
 
   // ── BRANCH H — MASTERY: LIGHT & LENS ─────────────────────────────────────
-  // Post-capstone specialization: physically believable rendering and
-  // dramatic camera work, unlocked by finishing the portfolio (G5).
+  // Advanced specialization growing directly out of the fundamentals rather
+  // than gated behind the portfolio: value logic (A4) is the physics
+  // prerequisite, B4 brings the edge/layer workflow (and pulls in A5's
+  // color), and A2/F1 ground the perspective-heavy nodes. H5 is a fifth
+  // capstone that counts toward G5's "any two" group.
   {
-    id: 'H1', branch: 'H', icon: '✨', title: 'Material Rendering & Specularity', tier: 7, prereqs: all('G5'),
+    id: 'H1', branch: 'H', icon: '✨', title: 'Material Rendering & Specularity', tier: 5, prereqs: all('A4', 'B4'),
     description: 'Diffuse vs. specular reflection, roughness and gloss, the Fresnel effect, metals vs. dielectrics — why chrome, glass, skin, fabric, and gold each catch light differently, and how to paint the difference.',
     completeWhen: 'Render a 10-sphere material chart (matte, glossy, chrome, glass, gold, skin, fabric, wood, wax/subsurface, wet) under one consistent light setup, each sphere reading unmistakably as its material.',
     xp: 180,
@@ -670,10 +675,10 @@ export const NODES: CurriculumNode[] = [
       'Marco Bucci, "10 Minutes to Better Painting" (specular vs. diffuse)',
       'Sinix Design material-study videos',
     ],
-    pos: { x: 5, y: 10 },
+    pos: { x: 2.4, y: 6 },
   },
   {
-    id: 'H2', branch: 'H', icon: '🌈', title: 'Colored Light & Multiple Sources', tier: 7, prereqs: all('G5'),
+    id: 'H2', branch: 'H', icon: '🌈', title: 'Colored Light & Multiple Sources', tier: 5, prereqs: all('A4', 'A5'),
     description: 'How colored light transforms local color; key + colored rim two-source schemes, colored bounce and ambient light, gel-lit studies, and keeping the value structure intact under strong hue shifts.',
     completeWhen: 'Paint 6 studies of one subject under different colored-light setups (including at least one two-color key/rim scheme) with a written note on the light-color logic of each.',
     xp: 150,
@@ -683,10 +688,10 @@ export const NODES: CurriculumNode[] = [
       'Marco Bucci colored-light breakdowns',
       'Film stills with strong gel lighting as reference',
     ],
-    pos: { x: 6.5, y: 10 },
+    pos: { x: 1.2, y: 6 },
   },
   {
-    id: 'H3', branch: 'H', icon: '🪞', title: 'Reflective Surfaces & Curved Mirrors', tier: 8, prereqs: all('H1'),
+    id: 'H3', branch: 'H', icon: '🪞', title: 'Reflective Surfaces & Curved Mirrors', tier: 6, prereqs: all('H1', 'A2'),
     description: 'Constructing accurate reflections: flat mirrors and mirror-space, convex and concave mirror distortion, chrome spheres, and how reflections differ on water, glass, and polished metal — what reflects where, and why.',
     completeWhen: 'Produce 6 reflection studies including a flat-mirror scene, a convex chrome sphere, and a concave-mirror distortion study, each with construction/reflection lines shown.',
     xp: 160,
@@ -696,10 +701,10 @@ export const NODES: CurriculumNode[] = [
       'M.C. Escher, Hand with Reflecting Sphere (master study)',
       'James Gurney, Color and Light (water and reflections)',
     ],
-    pos: { x: 5.6, y: 11 },
+    pos: { x: 2, y: 7 },
   },
   {
-    id: 'H4', branch: 'H', icon: '🌀', title: 'Curvilinear Perspective & Dramatic Lenses', tier: 7, prereqs: all('G5'),
+    id: 'H4', branch: 'H', icon: '🌀', title: 'Curvilinear Perspective & Dramatic Lenses', tier: 5, prereqs: all('A2', 'F1'),
     description: '4- and 5-point (fisheye) perspective, wide-angle distortion, extreme worm\'s-eye and bird\'s-eye shots, and lens choice as storytelling — how focal length changes the drama of a composition.',
     completeWhen: 'Produce 4 finished perspective drawings: one 4-point vertical-curve shot, one 5-point fisheye, and the same scene staged at two extreme dramatic angles.',
     xp: 150,
@@ -708,11 +713,11 @@ export const NODES: CurriculumNode[] = [
       'Marcos Mateu-Mestre, Framed Perspective Vol. 1 & 2',
       'Scott Robertson, How to Draw (advanced perspective)',
     ],
-    pos: { x: 8, y: 10 },
+    pos: { x: 13.6, y: 7 },
   },
   {
-    id: 'H5', branch: 'H', icon: '🎬', title: 'Cinematic Master Illustration', tier: 9, prereqs: all('H2', 'H3', 'H4'),
-    description: 'The post-capstone: one portfolio centerpiece combining physically believable materials, a colored multi-source lighting scheme, prominent reflective surfaces, and a dramatic curvilinear camera.',
+    id: 'H5', branch: 'H', icon: '🎬', title: 'Cinematic Master Illustration', tier: 6, prereqs: all('H2', 'H3', 'H4', 'A6'),
+    description: 'A fifth capstone: one portfolio centerpiece combining physically believable materials, a colored multi-source lighting scheme, prominent reflective surfaces, and a dramatic curvilinear camera. Counts toward the Portfolio node\'s "any two" capstone requirement.',
     completeWhen: 'Complete one finished illustration featuring at least one strongly specular material, a two-color lighting scheme, a prominent reflective surface, and a curvilinear or extreme-angle camera.',
     xp: 220,
     resources: [
@@ -720,7 +725,7 @@ export const NODES: CurriculumNode[] = [
       'Marcos Mateu-Mestre, Framed Ink & Framed Perspective',
       'Pro cinematic-illustration breakdowns (ArtStation Learning)',
     ],
-    pos: { x: 6.8, y: 12 },
+    pos: { x: 5, y: 8 },
   },
 ];
 

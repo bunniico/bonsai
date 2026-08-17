@@ -74,7 +74,9 @@ only lets it see files it created itself).
 ## The curriculum
 
 The tree implements the research document's 39-node specification, plus a
-post-capstone mastery branch for advanced rendering and camera work:
+mastery branch for advanced rendering and camera work that grows out of the
+fundamentals (value, color, perspective) and culminates in a fifth capstone
+that counts toward the portfolio:
 
 | Branch | Theme | Nodes |
 |---|---|---|

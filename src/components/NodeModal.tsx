@@ -141,6 +141,28 @@ export function NodeModal({ nodeId, onClose, onSelect }: Props) {
             </div>
           )}
 
+          {(node.recommended?.length ?? 0) > 0 && (
+            <div className="prereqs">
+              <h3>Recommended first</h3>
+              <div className="chip-row">
+                {node.recommended!.map((id) => {
+                  const done = !!progress.completed[id];
+                  return (
+                    <button
+                      key={id}
+                      className={`chip ${done ? 'chip-done' : ''}`}
+                      onClick={() => onSelect(id)}
+                      title={NODE_MAP.get(id)?.title ?? id}
+                    >
+                      {done ? '✓ ' : ''}{id}
+                    </button>
+                  );
+                })}
+              </div>
+              <p className="hint">Suggested, not required — this node unlocks without them, but they make it noticeably stronger.</p>
+            </div>
+          )}
+
           <div className="resources">
             <h3>Resources</h3>
             <ul>

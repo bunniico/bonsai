@@ -45,6 +45,8 @@ export interface CurriculumNode {
   resources: string[];
   /** Adult-education content (anatomy, figure interaction, gore) — hidden unless enabled in settings. */
   mature?: boolean;
+  /** Soft suggestions: nodes that improve this one but never gate its unlock. */
+  recommended?: string[];
   /** Layout position on the tree canvas, in grid units (x rightward, y = depth from the roots). */
   pos: { x: number; y: number };
   /** Optional bite-size breakdown of this node into lessons and exercises. */

@@ -129,6 +129,7 @@ body {
   transition: stroke 0.3s;
 }
 .edge-active { stroke-width: 2.5; opacity: 0.85; }
+.edge-recommended { stroke-dasharray: 2 7; opacity: 0.55; }
 
 .node { cursor: pointer; }
 .node:focus { outline: none; }
