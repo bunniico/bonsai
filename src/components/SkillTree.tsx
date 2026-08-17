@@ -84,6 +84,26 @@ export function SkillTree({ onSelect, selectedId }: Props) {
               }),
           ),
         )}
+        {/* soft "recommended" links — suggestions only, never unlock gates */}
+        {nodes.flatMap((node) =>
+          (node.recommended ?? [])
+            .filter((id) => visibleIds.has(id))
+            .map((id) => {
+              const from = NODE_MAP.get(id)!;
+              const x1 = px(from);
+              const y1 = py(from) - R;
+              const x2 = px(node);
+              const y2 = py(node) + R;
+              const bend = Math.min(60, Math.abs(y1 - y2) / 2 + 10);
+              return (
+                <path
+                  key={`${id}~>${node.id}`}
+                  d={`M ${x1} ${y1} C ${x1} ${y1 - bend}, ${x2} ${y2 + bend}, ${x2} ${y2}`}
+                  className="edge edge-recommended"
+                />
+              );
+            }),
+        )}
         {/* nodes */}
         {nodes.map((node) => {
           const completed = !!progress.completed[node.id];
