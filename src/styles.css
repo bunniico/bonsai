@@ -179,6 +179,19 @@ body {
 .node-xp { text-anchor: middle; font-size: 10px; fill: #79806e; pointer-events: none; }
 .node-art { font-size: 11px; pointer-events: none; }
 
+.node-sub-badge-ring {
+  fill: var(--bg-panel);
+  stroke: #3b463b;
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+.node-completed .node-sub-badge-ring { fill: #13180f; }
+.node-sub-count {
+  text-anchor: middle;
+  font-size: 9.5px;
+  pointer-events: none;
+}
+
 /* ── Buttons & inputs ───────────────────────────────── */
 .btn {
   border-radius: var(--radius);
@@ -285,6 +298,51 @@ body {
 
 .resources ul { margin: 4px 0 0; padding-left: 20px; }
 .resources li { margin: 3px 0; }
+
+/* ── Sub-nodes (micro-lessons / exercises) ─────────────── */
+.sub-nodes { margin-top: 12px; }
+
+.sub-progress { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.sub-progress-bar {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.sub-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.2s ease;
+}
+.sub-progress-label { font-size: 12px; color: var(--ink-dim); white-space: nowrap; }
+
+.sub-group + .sub-group { margin-top: 14px; }
+.sub-group h4 {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0 0 6px;
+}
+
+.sub-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.sub-item {
+  border-radius: var(--radius);
+  padding: 6px 8px;
+}
+.sub-item:hover { background: var(--bg-panel); }
+.sub-item-done .sub-item-title { color: var(--accent); }
+.sub-item-done .sub-item-summary { color: var(--ink-dim); text-decoration: line-through; text-decoration-color: var(--line); }
+
+.sub-item .toggle-row { align-items: flex-start; }
+.sub-item-body { display: flex; flex-direction: column; gap: 2px; }
+.sub-item-title { display: flex; align-items: baseline; gap: 6px; font-weight: 600; font-size: 13.5px; }
+.sub-kind-icon { font-size: 12px; }
+.sub-minutes { font-size: 11px; font-weight: 400; color: var(--ink-dim); margin-left: auto; }
+.sub-item-summary { font-size: 12.5px; color: var(--ink-dim); line-height: 1.5; }
+.sub-item-goal { font-size: 12px; color: var(--ink); background: var(--bg-panel); border-radius: 6px; padding: 3px 6px; width: fit-content; }
 
 .modal-foot {
   display: flex;

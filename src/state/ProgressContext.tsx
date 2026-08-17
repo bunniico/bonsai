@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import type { ReactNode } from 'react';
 import { ACHIEVEMENTS } from '../data/achievements';
 import type { AchievementDef } from '../data/achievements';
+import { NODE_MAP } from '../data/curriculum';
 import type { ImageRef, Progress } from '../types';
 import { defaultProgress, loadProgress, saveProgress } from './progress';
 
@@ -9,6 +10,7 @@ interface ProgressApi {
   progress: Progress;
   toasts: AchievementDef[];
   toggleComplete: (nodeId: string) => void;
+  toggleSubNode: (parentId: string, subNodeId: string) => void;
   addImage: (nodeId: string, ref: ImageRef) => void;
   removeImage: (nodeId: string, ref: ImageRef) => void;
   updateSettings: (patch: Partial<Progress['settings']>) => void;
@@ -22,12 +24,30 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   const [progress, setProgress] = useState<Progress>(loadProgress);
   const [toasts, setToasts] = useState<AchievementDef[]>([]);
   const toastTimers = useRef<number[]>([]);
+  const prevAchievementsRef = useRef(progress.achievements);
 
   useEffect(() => {
     saveProgress(progress);
   }, [progress]);
 
   useEffect(() => () => toastTimers.current.forEach((t) => window.clearTimeout(t)), []);
+
+  // Diffing achievements in an effect (rather than inside the setState updater below) keeps
+  // the toast side effect from firing twice under Strict Mode's updater double-invocation.
+  useEffect(() => {
+    const prevAchievements = prevAchievementsRef.current;
+    prevAchievementsRef.current = progress.achievements;
+    const newlyEarned = ACHIEVEMENTS.filter(
+      (a) => progress.achievements[a.id] && !prevAchievements[a.id],
+    );
+    if (newlyEarned.length === 0) return;
+    setToasts((t) => [...t, ...newlyEarned]);
+    toastTimers.current.push(
+      window.setTimeout(() => {
+        setToasts((t) => t.slice(newlyEarned.length));
+      }, 5000),
+    );
+  }, [progress.achievements]);
 
   const applyWithAchievements = useCallback((updater: (prev: Progress) => Progress) => {
     setProgress((prev) => {
@@ -39,12 +59,6 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       const at = new Date().toISOString();
       const achievements = { ...next.achievements };
       for (const a of newlyEarned) achievements[a.id] = { at };
-      setToasts((t) => [...t, ...newlyEarned]);
-      toastTimers.current.push(
-        window.setTimeout(() => {
-          setToasts((t) => t.slice(newlyEarned.length));
-        }, 5000),
-      );
       return { ...next, achievements };
     });
   }, []);
@@ -54,6 +68,23 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       const completed = { ...prev.completed };
       if (completed[nodeId]) delete completed[nodeId];
       else completed[nodeId] = { at: new Date().toISOString() };
+      return { ...prev, completed };
+    });
+  }, [applyWithAchievements]);
+
+  const toggleSubNode = useCallback((parentId: string, subNodeId: string) => {
+    applyWithAchievements((prev) => {
+      const completed = { ...prev.completed };
+      if (completed[subNodeId]) delete completed[subNodeId];
+      else completed[subNodeId] = { at: new Date().toISOString() };
+
+      const parent = NODE_MAP.get(parentId);
+      const subNodes = parent?.subNodes;
+      if (subNodes && subNodes.length > 0) {
+        const allDone = subNodes.every((s) => completed[s.id]);
+        if (allDone && !completed[parentId]) completed[parentId] = { at: new Date().toISOString() };
+        else if (!allDone && completed[parentId]) delete completed[parentId];
+      }
       return { ...prev, completed };
     });
   }, [applyWithAchievements]);
@@ -90,8 +121,8 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   const importProgress = useCallback((p: Progress) => setProgress(p), []);
 
   const api = useMemo<ProgressApi>(
-    () => ({ progress, toasts, toggleComplete, addImage, removeImage, updateSettings, resetProgress, importProgress }),
-    [progress, toasts, toggleComplete, addImage, removeImage, updateSettings, resetProgress, importProgress],
+    () => ({ progress, toasts, toggleComplete, toggleSubNode, addImage, removeImage, updateSettings, resetProgress, importProgress }),
+    [progress, toasts, toggleComplete, toggleSubNode, addImage, removeImage, updateSettings, resetProgress, importProgress],
   );
 
   return <Ctx.Provider value={api}>{children}</Ctx.Provider>;

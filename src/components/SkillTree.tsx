@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { BRANCHES, NODE_MAP } from '../data/curriculum';
-import { isUnlocked, visibleNodes } from '../state/progress';
+import { isUnlocked, subNodeProgress, visibleNodes } from '../state/progress';
 import { useProgress } from '../state/ProgressContext';
 import type { CurriculumNode } from '../types';
 
@@ -91,6 +91,8 @@ export function SkillTree({ onSelect, selectedId }: Props) {
           const color = branchColor(node);
           const state = completed ? 'completed' : unlocked ? 'unlocked' : 'locked';
           const hasArt = (progress.images[node.id]?.length ?? 0) > 0;
+          const { done: subDone, total: subTotal } = subNodeProgress(node, progress);
+          const hasSubNodes = subTotal > 0;
           return (
             <g
               key={node.id}
@@ -114,11 +116,19 @@ export function SkillTree({ onSelect, selectedId }: Props) {
                 <text className="node-id" x={-(R - 7)} y={-(R - 7)} dy="0.32em">{node.id}</text>
               </g>
               {hasArt && <text className="node-art" x={R - 6} y={-R + 8}>🖼</text>}
+              {hasSubNodes && (
+                <g className="node-sub-badge">
+                  <circle cx={R - 7} cy={R - 7} r={11} className="node-sub-badge-ring" />
+                  <text x={R - 7} y={R - 7} dy="0.32em" className="node-sub-count">📖</text>
+                </g>
+              )}
               <text className="node-title" y={R + 16}>
                 {node.title.length > 20 ? `${node.title.slice(0, 18)}…` : node.title}
               </text>
               {!completed && (
-                <text className="node-xp" y={R + 31}>{node.xp} XP</text>
+                <text className="node-xp" y={R + 31}>
+                  {hasSubNodes ? `${subDone}/${subTotal} · ${node.xp} XP` : `${node.xp} XP`}
+                </text>
               )}
             </g>
           );
