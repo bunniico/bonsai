@@ -170,6 +170,7 @@ export const BRANCHES: BranchInfo[] = [
   { id: 'E', name: 'Creatures & Non-Humans', color: '#5fc9b0' },
   { id: 'F', name: 'Environments', color: '#8fbe5f' },
   { id: 'G', name: 'Advanced / Capstone', color: '#e8d9a0' },
+  { id: 'H', name: 'Mastery: Light & Lens', color: '#e08fb8' },
 ];
 
 export const NODES: CurriculumNode[] = [
@@ -653,6 +654,73 @@ export const NODES: CurriculumNode[] = [
       'Your accumulated work',
     ],
     pos: { x: 6.5, y: 9 },
+  },
+
+  // ── BRANCH H — MASTERY: LIGHT & LENS ─────────────────────────────────────
+  // Post-capstone specialization: physically believable rendering and
+  // dramatic camera work, unlocked by finishing the portfolio (G5).
+  {
+    id: 'H1', branch: 'H', icon: '✨', title: 'Material Rendering & Specularity', tier: 7, prereqs: all('G5'),
+    description: 'Diffuse vs. specular reflection, roughness and gloss, the Fresnel effect, metals vs. dielectrics — why chrome, glass, skin, fabric, and gold each catch light differently, and how to paint the difference.',
+    completeWhen: 'Render a 10-sphere material chart (matte, glossy, chrome, glass, gold, skin, fabric, wood, wax/subsurface, wet) under one consistent light setup, each sphere reading unmistakably as its material.',
+    xp: 180,
+    resources: [
+      'Scott Robertson & Thomas Bertling, How to Render (reflectivity & materials chapters)',
+      'James Gurney, Color and Light (surfaces and effects chapters)',
+      'Marco Bucci, "10 Minutes to Better Painting" (specular vs. diffuse)',
+      'Sinix Design material-study videos',
+    ],
+    pos: { x: 5, y: 10 },
+  },
+  {
+    id: 'H2', branch: 'H', icon: '🌈', title: 'Colored Light & Multiple Sources', tier: 7, prereqs: all('G5'),
+    description: 'How colored light transforms local color; key + colored rim two-source schemes, colored bounce and ambient light, gel-lit studies, and keeping the value structure intact under strong hue shifts.',
+    completeWhen: 'Paint 6 studies of one subject under different colored-light setups (including at least one two-color key/rim scheme) with a written note on the light-color logic of each.',
+    xp: 150,
+    resources: [
+      'James Gurney, Color and Light (colored illumination & sources chapters)',
+      'Sam Nielson, Fundamentals of Lighting (Schoolism)',
+      'Marco Bucci colored-light breakdowns',
+      'Film stills with strong gel lighting as reference',
+    ],
+    pos: { x: 6.5, y: 10 },
+  },
+  {
+    id: 'H3', branch: 'H', icon: '🪞', title: 'Reflective Surfaces & Curved Mirrors', tier: 8, prereqs: all('H1'),
+    description: 'Constructing accurate reflections: flat mirrors and mirror-space, convex and concave mirror distortion, chrome spheres, and how reflections differ on water, glass, and polished metal — what reflects where, and why.',
+    completeWhen: 'Produce 6 reflection studies including a flat-mirror scene, a convex chrome sphere, and a concave-mirror distortion study, each with construction/reflection lines shown.',
+    xp: 160,
+    resources: [
+      'Scott Robertson, How to Draw (reflections chapter) & How to Render (reflective surfaces)',
+      'Convex/concave mirror ray-diagram primers (any intro optics text)',
+      'M.C. Escher, Hand with Reflecting Sphere (master study)',
+      'James Gurney, Color and Light (water and reflections)',
+    ],
+    pos: { x: 5.6, y: 11 },
+  },
+  {
+    id: 'H4', branch: 'H', icon: '🌀', title: 'Curvilinear Perspective & Dramatic Lenses', tier: 7, prereqs: all('G5'),
+    description: '4- and 5-point (fisheye) perspective, wide-angle distortion, extreme worm\'s-eye and bird\'s-eye shots, and lens choice as storytelling — how focal length changes the drama of a composition.',
+    completeWhen: 'Produce 4 finished perspective drawings: one 4-point vertical-curve shot, one 5-point fisheye, and the same scene staged at two extreme dramatic angles.',
+    xp: 150,
+    resources: [
+      'David Chelsea, Extreme Perspective! For Artists',
+      'Marcos Mateu-Mestre, Framed Perspective Vol. 1 & 2',
+      'Scott Robertson, How to Draw (advanced perspective)',
+    ],
+    pos: { x: 8, y: 10 },
+  },
+  {
+    id: 'H5', branch: 'H', icon: '🎬', title: 'Cinematic Master Illustration', tier: 9, prereqs: all('H2', 'H3', 'H4'),
+    description: 'The post-capstone: one portfolio centerpiece combining physically believable materials, a colored multi-source lighting scheme, prominent reflective surfaces, and a dramatic curvilinear camera.',
+    completeWhen: 'Complete one finished illustration featuring at least one strongly specular material, a two-color lighting scheme, a prominent reflective surface, and a curvilinear or extreme-angle camera.',
+    xp: 220,
+    resources: [
+      'Everything below this node',
+      'Marcos Mateu-Mestre, Framed Ink & Framed Perspective',
+      'Pro cinematic-illustration breakdowns (ArtStation Learning)',
+    ],
+    pos: { x: 6.8, y: 12 },
   },
 ];
 

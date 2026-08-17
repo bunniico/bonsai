@@ -69,6 +69,11 @@ export const ACHIEVEMENTS: AchievementDef[] = [
     earned: (p) => NODES.some((n) => n.branch === 'G' && p.completed[n.id]),
   },
   {
+    id: 'light-through-leaves', name: 'Light Through the Leaves', emoji: '🪞',
+    description: 'Complete every Mastery: Light & Lens node.',
+    earned: (p) => branchDone(p, 'H'),
+  },
+  {
     id: 'deep-roots', name: 'Deep Roots', emoji: '⛰️',
     description: 'Earn 1,000 XP.',
     earned: (p) => xpOf(p) >= 1000,
