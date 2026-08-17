@@ -1,4 +1,4 @@
-export type BranchId = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G';
+export type BranchId = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H';
 
 /**
  * A prerequisite group: `required` of the listed nodes must be complete.

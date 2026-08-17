@@ -4,7 +4,7 @@
 
 A gamified web app for learning digital art from near-zero to competent
 generalist, built on the research plan in *The Artist's Tech Tree*. The full
-curriculum — 39 nodes across 7 branches with prerequisites, verifiable
+curriculum — 44 nodes across 8 branches with prerequisites, verifiable
 completion criteria, XP values, and cited resources — is rendered as a
 living skill tree you climb from the soil up.
 
@@ -26,7 +26,7 @@ living skill tree you climb from the soil up.
 - **XP & levels** — XP is awarded only for meeting a node's concrete
   completion criteria (≈100 XP per 10 focused hours). Levels follow the
   traditional bonsai size classes: Seed → Sprout → Seedling → Shito → Mame
-  → Shohin → Komono → Chumono → Omono → Imperial.
+  → Shohin → Komono → Chumono → Omono → Imperial → Yamadori.
 - **A bonsai that grows with you** — the sidebar tree gains trunk, branches,
   foliage pads, and finally blossoms as you level.
 - **Achievements** — badges for branch completions, XP milestones, and
@@ -73,7 +73,8 @@ only lets it see files it created itself).
 
 ## The curriculum
 
-The tree implements the research document's 39-node specification:
+The tree implements the research document's 39-node specification, plus a
+post-capstone mastery branch for advanced rendering and camera work:
 
 | Branch | Theme | Nodes |
 |---|---|---|
@@ -84,6 +85,7 @@ The tree implements the research document's 39-node specification:
 | E | Creatures & Non-Humans — animals, anthro, monsters, mechs | 4 |
 | F | Environments — perspective, nature studies, hard surface, scenes | 7 |
 | G | Advanced / Capstone — finished portfolio illustrations | 5 |
+| H | Mastery: Light & Lens — specular materials, colored light, curved mirrors, curvilinear perspective | 5 |
 
 Curriculum data lives in [`src/data/curriculum.ts`](src/data/curriculum.ts)
 — nodes are plain objects, so adjusting XP, splitting nodes, or adding

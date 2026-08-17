@@ -2,7 +2,8 @@ import type { LevelInfo } from '../types';
 
 /**
  * Level names follow the traditional bonsai size classes, from seed to the
- * eight-handed Imperial bonsai. Thresholds span the tree's total XP (5370).
+ * eight-handed Imperial bonsai — crowned by the yamadori, a wild-collected
+ * tree prized above all. Thresholds span the tree's total XP (6230).
  */
 export const LEVELS: LevelInfo[] = [
   { level: 1, name: 'Seed', minXp: 0 },
@@ -15,6 +16,7 @@ export const LEVELS: LevelInfo[] = [
   { level: 8, name: 'Chumono (four hands)', minXp: 3400 },
   { level: 9, name: 'Omono (six hands)', minXp: 4300 },
   { level: 10, name: 'Imperial (eight hands)', minXp: 5300 },
+  { level: 11, name: 'Yamadori (wild-collected)', minXp: 6100 },
 ];
 
 export function levelForXp(xp: number): LevelInfo {
