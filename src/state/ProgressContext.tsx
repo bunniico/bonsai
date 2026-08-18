@@ -3,8 +3,10 @@ import type { ReactNode } from 'react';
 import { ACHIEVEMENTS } from '../data/achievements';
 import type { AchievementDef } from '../data/achievements';
 import { NODE_MAP } from '../data/curriculum';
+import { levelForXp } from '../data/levels';
+import { playLevelUp, playMicroComplete, playNodeComplete } from '../services/sounds';
 import type { ImageRef, Progress } from '../types';
-import { defaultProgress, loadProgress, saveProgress } from './progress';
+import { defaultProgress, earnedXp, loadProgress, saveProgress } from './progress';
 
 interface ProgressApi {
   progress: Progress;
@@ -25,6 +27,10 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<AchievementDef[]>([]);
   const toastTimers = useRef<number[]>([]);
   const prevAchievementsRef = useRef(progress.achievements);
+  const prevCompletedRef = useRef(progress.completed);
+  // Sounds only play for completions the user just clicked, never for
+  // imports/resets — the toggle callbacks arm this flag before updating state.
+  const soundArmedRef = useRef(false);
 
   useEffect(() => {
     saveProgress(progress);
@@ -49,6 +55,24 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     );
   }, [progress.achievements]);
 
+  // Like the achievement toasts above, completion sounds are diffed in an
+  // effect so Strict Mode's updater double-invocation can't play them twice.
+  // Only the most significant sound plays: level up > parent node > micro.
+  useEffect(() => {
+    const prevCompleted = prevCompletedRef.current;
+    prevCompletedRef.current = progress.completed;
+    const armed = soundArmedRef.current;
+    soundArmedRef.current = false;
+    if (!armed || prevCompleted === progress.completed) return;
+    const newlyDone = Object.keys(progress.completed).filter((id) => !prevCompleted[id]);
+    if (newlyDone.length === 0) return;
+    const prevLevel = levelForXp(earnedXp({ ...progress, completed: prevCompleted })).level;
+    const nextLevel = levelForXp(earnedXp(progress)).level;
+    if (nextLevel > prevLevel) playLevelUp();
+    else if (newlyDone.some((id) => NODE_MAP.has(id))) playNodeComplete();
+    else playMicroComplete();
+  }, [progress]);
+
   const applyWithAchievements = useCallback((updater: (prev: Progress) => Progress) => {
     setProgress((prev) => {
       const next = updater(prev);
@@ -64,6 +88,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const toggleComplete = useCallback((nodeId: string) => {
+    soundArmedRef.current = true;
     applyWithAchievements((prev) => {
       const completed = { ...prev.completed };
       if (completed[nodeId]) delete completed[nodeId];
@@ -73,6 +98,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   }, [applyWithAchievements]);
 
   const toggleSubNode = useCallback((parentId: string, subNodeId: string) => {
+    soundArmedRef.current = true;
     applyWithAchievements((prev) => {
       const completed = { ...prev.completed };
       if (completed[subNodeId]) delete completed[subNodeId];
