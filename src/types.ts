@@ -70,6 +70,7 @@ export interface Progress {
   settings: {
     showMature: boolean;
     driveClientId: string;
+    muteSounds: boolean;
   };
 }
 

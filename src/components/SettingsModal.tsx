@@ -69,6 +69,18 @@ export function SettingsModal({ onClose }: { onClose: () => void }) {
           </section>
 
           <section>
+            <h3>Sounds</h3>
+            <label className="toggle-row">
+              <input
+                type="checkbox"
+                checked={progress.settings.muteSounds}
+                onChange={(e) => updateSettings({ muteSounds: e.target.checked })}
+              />
+              Mute completion sounds (micro-lessons, nodes, level-ups).
+            </label>
+          </section>
+
+          <section>
             <h3>Your data</h3>
             <p className="hint">
               Progress lives in this browser (localStorage + IndexedDB).

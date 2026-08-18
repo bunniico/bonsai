@@ -63,7 +63,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     prevCompletedRef.current = progress.completed;
     const armed = soundArmedRef.current;
     soundArmedRef.current = false;
-    if (!armed || prevCompleted === progress.completed) return;
+    if (!armed || progress.settings.muteSounds || prevCompleted === progress.completed) return;
     const newlyDone = Object.keys(progress.completed).filter((id) => !prevCompleted[id]);
     if (newlyDone.length === 0) return;
     const prevLevel = levelForXp(earnedXp({ ...progress, completed: prevCompleted })).level;
