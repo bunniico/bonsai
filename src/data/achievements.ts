@@ -1,4 +1,5 @@
 import { NODE_MAP, NODES } from './curriculum';
+import { earnedXp } from '../state/progress';
 import type { BranchId, Progress } from '../types';
 
 export interface AchievementDef {
@@ -18,9 +19,6 @@ const branchDone = (p: Progress, branch: BranchId) =>
 /** Counts only top-level nodes — sub-node completions share the same map but shouldn't inflate this. */
 const completedCount = (p: Progress) =>
   Object.keys(p.completed).filter((id) => NODE_MAP.has(id)).length;
-
-const xpOf = (p: Progress) =>
-  NODES.filter((n) => p.completed[n.id]).reduce((s, n) => s + n.xp, 0);
 
 export const ACHIEVEMENTS: AchievementDef[] = [
   {
@@ -76,12 +74,12 @@ export const ACHIEVEMENTS: AchievementDef[] = [
   {
     id: 'deep-roots', name: 'Deep Roots', emoji: '⛰️',
     description: 'Earn 1,000 XP.',
-    earned: (p) => xpOf(p) >= 1000,
+    earned: (p) => earnedXp(p) >= 1000,
   },
   {
     id: 'thick-trunk', name: 'Thick Trunk', emoji: '🪵',
     description: 'Earn 2,500 XP.',
-    earned: (p) => xpOf(p) >= 2500,
+    earned: (p) => earnedXp(p) >= 2500,
   },
   {
     id: 'curator', name: 'Curator', emoji: '🖼️',
