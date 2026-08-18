@@ -8,7 +8,7 @@ export function defaultProgress(): Progress {
     completed: {},
     images: {},
     achievements: {},
-    settings: { showMature: false, driveClientId: '' },
+    settings: { showMature: false, driveClientId: '', muteSounds: false },
   };
 }
 
