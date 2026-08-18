@@ -1,8 +1,11 @@
 /**
  * Celebratory UI sounds, synthesized with the Web Audio API so no audio
- * assets need shipping. Three tiers of happiness:
+ * assets need shipping. Four tiers of happiness:
  *
- *  - micro-lesson complete → a short two-note blip (~0.2s)
+ *  - micro-lesson complete → a short two-note blip (~0.2s) that climbs the
+ *    scale with each lesson finished in the same group, combo-style
+ *  - group complete        → a resolving cadence (~0.6s) that lands the
+ *    tension the climb built up
  *  - parent node complete  → a medium ascending arpeggio (~0.6s)
  *  - level up              → a long fanfare with a closing chord (~1.5s)
  *
@@ -48,13 +51,42 @@ const E6 = 1318.5;
 const G6 = 1568.0;
 const C5 = 523.25;
 const E5 = 659.25;
+const D6 = 1174.7;
 
-/** Short happy blip for completing a micro-lesson. */
-export function playMicroComplete(): void {
+/**
+ * C-major pentatonic ladder the micro-lesson blip climbs, starting at the
+ * original G5. Pentatonic so every rung stays consonant with every other —
+ * the combo can start or stall anywhere and never sound sour. Eleven rungs
+ * covers the largest group (9 lessons) plus the blip's two-rung interval.
+ */
+const COMBO_LADDER = [783.99, 880.0, 1046.5, 1174.7, 1318.5, 1568.0, 1760.0, 2093.0, 2349.3, 2637.0, 3136.0];
+
+/**
+ * Short happy blip for completing a micro-lesson. `step` is how many lessons
+ * in the same group were already done — each one pitches the blip up a rung,
+ * building tension toward the group-complete cadence.
+ */
+export function playMicroComplete(step = 0): void {
   const ac = getContext();
   if (!ac) return;
-  tone(ac, G5, 0, 0.12, 0.12);
-  tone(ac, C6, 0.08, 0.18, 0.12);
+  const i = Math.min(Math.max(step, 0), COMBO_LADDER.length - 3);
+  tone(ac, COMBO_LADDER[i], 0, 0.12, 0.12);
+  tone(ac, COMBO_LADDER[i + 2], 0.08, 0.18, 0.12);
+}
+
+/**
+ * Resolving cadence for finishing every micro-lesson in a group: a quick
+ * dominant pickup that lands on a held tonic chord, releasing the tension
+ * the rising combo blips built up.
+ */
+export function playGroupComplete(): void {
+  const ac = getContext();
+  if (!ac) return;
+  tone(ac, G5, 0, 0.1, 0.1);
+  tone(ac, D6, 0.02, 0.1, 0.07);
+  tone(ac, C6, 0.12, 0.5, 0.12);
+  tone(ac, E6, 0.12, 0.5, 0.09);
+  tone(ac, G6, 0.14, 0.48, 0.06, 'sine');
 }
 
 /** Medium happy arpeggio for completing a parent node. */
