@@ -60,8 +60,23 @@ export function subNodeProgress(node: CurriculumNode, p: Progress): { done: numb
   return { done: subs.filter((s) => p.completed[s.id]).length, total: subs.length };
 }
 
+/**
+ * XP earned toward a single node. Micro lessons pay out half the node's XP,
+ * split evenly among them as they're completed; the other half is granted
+ * when the node itself is complete. Nodes without micro lessons pay out in
+ * full on completion.
+ */
+export function nodeEarnedXp(node: CurriculumNode, p: Progress): number {
+  const subs = node.subNodes ?? [];
+  if (subs.length === 0) return p.completed[node.id] ? node.xp : 0;
+  const microPool = Math.floor(node.xp / 2);
+  const done = subs.filter((s) => p.completed[s.id]).length;
+  const microXp = Math.round((microPool * done) / subs.length);
+  return microXp + (p.completed[node.id] ? node.xp - microPool : 0);
+}
+
 export function earnedXp(p: Progress): number {
-  return NODES.filter((n) => p.completed[n.id]).reduce((s, n) => s + n.xp, 0);
+  return NODES.reduce((s, n) => s + nodeEarnedXp(n, p), 0);
 }
 
 export function availableXp(p: Progress): number {

@@ -1,5 +1,5 @@
 import { BRANCHES, NODE_MAP } from '../data/curriculum';
-import { isUnlocked, subNodeProgress } from '../state/progress';
+import { isUnlocked, nodeEarnedXp, subNodeProgress } from '../state/progress';
 import { useProgress } from '../state/ProgressContext';
 import { Attachments } from './Attachments';
 
@@ -174,7 +174,9 @@ export function NodeModal({ nodeId, onClose, onSelect }: Props) {
         </div>
 
         <footer className="modal-foot">
-          <span className="xp-tag">{node.xp} XP</span>
+          <span className="xp-tag">
+            {hasSubNodes ? `${nodeEarnedXp(node, progress)} / ${node.xp} XP` : `${node.xp} XP`}
+          </span>
           {hasSubNodes ? (
             <span className="hint">
               {completed ? `✓ Complete · all ${subTotal} micro-lessons done` : `${subDone} / ${subTotal} micro-lessons done`}
