@@ -731,6 +731,11 @@ export const NODES: CurriculumNode[] = [
 
 export const NODE_MAP: Map<string, CurriculumNode> = new Map(NODES.map((n) => [n.id, n]));
 
+/** Sub-node id → the node whose sub-tree it lives in. */
+export const SUB_NODE_PARENT: Map<string, CurriculumNode> = new Map(
+  NODES.flatMap((n) => (n.subNodes ?? []).map((s) => [s.id, n] as const)),
+);
+
 export const branchOf = (id: string): BranchInfo =>
   BRANCHES.find((b) => b.id === NODE_MAP.get(id)?.branch) ?? BRANCHES[0];
 

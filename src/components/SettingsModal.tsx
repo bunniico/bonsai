@@ -76,7 +76,7 @@ export function SettingsModal({ onClose }: { onClose: () => void }) {
                 checked={progress.settings.muteSounds}
                 onChange={(e) => updateSettings({ muteSounds: e.target.checked })}
               />
-              Mute completion sounds (micro-lessons, nodes, level-ups).
+              Mute completion sounds (micro-lessons, groups, nodes, level-ups).
             </label>
           </section>
 

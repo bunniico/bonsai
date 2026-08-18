@@ -2,9 +2,9 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import type { ReactNode } from 'react';
 import { ACHIEVEMENTS } from '../data/achievements';
 import type { AchievementDef } from '../data/achievements';
-import { NODE_MAP } from '../data/curriculum';
+import { NODE_MAP, SUB_NODE_PARENT } from '../data/curriculum';
 import { levelForXp } from '../data/levels';
-import { playLevelUp, playMicroComplete, playNodeComplete } from '../services/sounds';
+import { playGroupComplete, playLevelUp, playMicroComplete, playNodeComplete } from '../services/sounds';
 import type { ImageRef, Progress } from '../types';
 import { defaultProgress, earnedXp, loadProgress, saveProgress } from './progress';
 
@@ -57,7 +57,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
   // Like the achievement toasts above, completion sounds are diffed in an
   // effect so Strict Mode's updater double-invocation can't play them twice.
-  // Only the most significant sound plays: level up > parent node > micro.
+  // Only the most significant sound plays: level up > parent node > group > micro.
   useEffect(() => {
     const prevCompleted = prevCompletedRef.current;
     prevCompletedRef.current = progress.completed;
@@ -68,9 +68,18 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     if (newlyDone.length === 0) return;
     const prevLevel = levelForXp(earnedXp({ ...progress, completed: prevCompleted })).level;
     const nextLevel = levelForXp(earnedXp(progress)).level;
-    if (nextLevel > prevLevel) playLevelUp();
-    else if (newlyDone.some((id) => NODE_MAP.has(id))) playNodeComplete();
-    else playMicroComplete();
+    if (nextLevel > prevLevel) return playLevelUp();
+    if (newlyDone.some((id) => NODE_MAP.has(id))) return playNodeComplete();
+    // A single micro-lesson: pitch the blip up by how far along its group is,
+    // and resolve with a cadence when the group's last lesson lands.
+    const microId = newlyDone[0];
+    const siblings = SUB_NODE_PARENT.get(microId)?.subNodes ?? [];
+    const micro = siblings.find((s) => s.id === microId);
+    if (!micro) return playMicroComplete();
+    const group = siblings.filter((s) => s.group === micro.group);
+    const doneInGroup = group.filter((s) => progress.completed[s.id]).length;
+    if (doneInGroup === group.length) playGroupComplete();
+    else playMicroComplete(doneInGroup - 1);
   }, [progress]);
 
   const applyWithAchievements = useCallback((updater: (prev: Progress) => Progress) => {
